@@ -28,4 +28,4 @@ def imgconvert():
     with open("imageToSave.png", "wb") as fh:
         fh.write(base64.b64decode(img_data))
 
-app.run()
+app.run(host='0.0.0.0', port=5000)
