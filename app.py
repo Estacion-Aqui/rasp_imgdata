@@ -1,5 +1,6 @@
 from flask import Flask 
 from flask import request, jsonify
+import base64
 
 app = Flask(__name__)
 
@@ -20,5 +21,11 @@ def hello():
 def api_call():
     return jsonify(spots)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+@app.route('/api/v1/resources/imgdata', methods=['POST'])
+
+def imgconvert():
+    img_data = request.get_json().get('img_data')
+    with open("imageToSave.png", "wb") as fh:
+        fh.write(base64.b64decode(img_data))
+
+app.run()
