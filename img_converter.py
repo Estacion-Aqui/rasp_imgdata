@@ -3,8 +3,7 @@ from flask import Flask, request, jsonify, os, base64, datetime
 app = Flask(__name__)
 
 @app.route('/api/imgdata', methods=['POST'])
-
-def imgconvert():
+def img_convert():
     filename = datetime.datetime.now().strftime("%H%M%S%d%m%Y") + ".png"
 
     img_data = request.get_json().get('img_data')
