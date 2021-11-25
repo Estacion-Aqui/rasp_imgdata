@@ -12,14 +12,16 @@ def img_convert():
     img_data = request.get_json().get('img_data')
     cam_id = request.get_json().get('cam_id')
     spot_number = request.get_json().get('spot_number')
+    status = request.get_json().get('spot_status')
 
-    filename = f"{cam_id}_{spot_number}_{currentTime}.jpeg"
+    filename = f"{cam_id}_{status}_{currentTime}.jpeg"
     filepath = os.path.join(imgDir, filename)
-    
+
     nparr = np.frombuffer(base64.b64decode(img_data), np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    
+
     cv2.imwrite(filepath, img)
+    cv2.imwrite(os.path.join("backups", filename), img)
 
     return "OK"
 
