@@ -16,17 +16,20 @@ def img_convert():
 
     filename = f"{cam_id}_{status}_{currentTime}.jpeg"
     filepath = os.path.join(imgDir, filename)
+    backupPath = os.path.join("backups", filename) 
 
-    nparr = np.frombuffer(base64.b64decode(img_data), np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
-    cv2.imwrite(filepath, img)
-    cv2.imwrite(os.path.join("backups", filename), img)
+    img = base64.b64decode(img_data)
+    
+    with open(filepath, "wb") as fh:
+        fh.write(img)
+        
+    with open(backupPath, "wb") as fh:
+        fh.write(img)
 
     return "OK"
 
 for path, dirs, files in os.walk('..'):
-  for dir in fnmatch.filter(dirs, 'resources'):
-    imgDir = os.path.abspath(os.path.join(path, dir))
+    for dir in fnmatch.filter(dirs, 'resources'):
+        imgDir = os.path.abspath(os.path.join(path, dir))
 
 app.run(host='0.0.0.0', port=5000)
